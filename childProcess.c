@@ -6,7 +6,7 @@
 
 int main () {
 
-  printf("I am the child process of %d, and my PID is %d\n", getppid(), getpid());
+  printf("I am the memory remapped child process of the parent process %d, and my new PID is %d\n\n", getppid(), getpid());
   return 0;
   
 }

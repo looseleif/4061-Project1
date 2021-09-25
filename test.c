@@ -6,8 +6,15 @@
 
 int main(){
 
+  int i = 0;
+
+  pid_t pid;
   
-  int pid = fork();
+  for(i;i<5;i++){
+  
+  pid = fork();
+
+  }
 
   if(pid < 0){
     printf("error occured");
@@ -15,13 +22,16 @@ int main(){
   } else if(pid == 0){
 
     // child process
-    printf("Im child with pid number: %d\n",getpid());
+    int i = 0;
+    printf("Im the original child with pid number: %d\n\n",getpid());
     execlp("/home/looseleif/4061-Project1/outputInput", "/home/looseleif/4061-Project1/outputInput", NULL); // new program
-
+    
   } else {
-    wait(NULL);
+
+    while(wait(NULL)>0);
+    
     printf("Child process finished\n");
-    printf("I am parent process with pid: %d\n", getpid());
+    printf("I am parent process with pid: %d\n\n", getpid());
   }
 
   return 0;
