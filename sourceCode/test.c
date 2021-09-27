@@ -10,11 +10,11 @@ int main(){
 
   pid_t pid;
   
-  for(i;i<5;i++){
+  //for(i;i<5;i++){
   
   pid = fork();
 
-  }
+  //}
 
   if(pid < 0){
     printf("error occured");
