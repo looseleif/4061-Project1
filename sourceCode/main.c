@@ -10,6 +10,15 @@ int main(int argc, char** argv)
 {
 	int number;
 	char buff[550];
+
+	char testS[550];
+
+	int j;
+	for (j=0; j < 550; j++) {
+
+		testS[j] = 'a';
+
+	}
 	
 	FILE* fptr;
 
@@ -52,8 +61,10 @@ int main(int argc, char** argv)
 
 	for (i=0; i < num; i++) {
 
-		printf("%s", fgets(buff, 550, fptr));
+		printf("%s\n", testS);
 
+
+		//fgets(buff, 550, fptr)
 	}
 	
 	printf("\n");
