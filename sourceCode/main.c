@@ -14,28 +14,39 @@ int main(int argc, char** argv)
 	FILE* fptr;
 
 	if ((fptr = fopen(argv[1], "r")) == NULL) {
-		printf("Error! opening file");
-
-		// Program exits if the file pointer returns NULL.
+		printf("error opening file\n");
 		exit(1);
 	}
 	
 	printf("%s\n", fgets(buff, 550, fptr));
 
 	int num;
-	int digit1 = (int)buff[1];
-	int digit2 = (int)buff[0];
 
-	if (digit2 == ' ') {
+	//printf("\n%dbuff0\n%dbuff1\n", buff[0], buff[1]);
 
-		num = digit1 - 48;
+	int ones;
+	int tens;
+
+	if (buff[1] == 13) {
+
+		ones = ((buff[0]) - 48);
+		tens = 0;
 
 	}
 	else {
 
-		num = (digit1-48) + ((digit2-48) * 10);
+		ones = ((buff[1]) - 48);
+		tens = ((buff[0]) - 48);
 
 	}
+
+	//printf("ones: %d\n", ones);
+	
+	//printf("tens: %d\n", tens);
+
+	num = (ones) + ((tens) * 10);
+
+	//printf("%d\n", num);
 
 	int i;
 
