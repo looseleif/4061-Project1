@@ -1,0 +1,4 @@
+21094 21093 /bin/pwd 
+21097 21096 echo Hello 
+21096 21093 echo Hello There 
+21093 21092 /bin/ls -l
