@@ -1,1 +1,14 @@
-haha
+10
+/bin/ls -l
+/bin/pwd
+echo Hello There
+echo Hello
+/bin/ls -l
+/bin/pwd
+echo Hello There
+echo Hello
+VAR
+JOHN
+0 1
+0 2
+2 3

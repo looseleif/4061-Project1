@@ -6,22 +6,61 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
+	int number;
+	char buff[550];
+	
+	FILE* fptr;
 
-	struct stat fileStat;
-	stat("input", &fileStat);
-	int fileSize = fileStat.st_size;
+	if ((fptr = fopen(argv[1], "r")) == NULL) {
+		printf("Error! opening file");
 
-	int in = open(argv[1], O_RDONLY);
+		// Program exits if the file pointer returns NULL.
+		exit(1);
+	}
+	
+	printf("%s\n", fgets(buff, 550, fptr));
 
-	char* buffer = malloc(fileSize);
-	read(in, buffer, fileSize);
-	close(in);
-	int out = open(argv[2], O_WRONLY);
-	write(out, buffer, fileSize);
-	close(out);
-	free(buffer);
+	int num;
+	int digit1 = (int)buff[1];
+	int digit2 = (int)buff[0];
+
+	if (digit2 == ' ') {
+
+		num = digit1 - 48;
+
+	}
+	else {
+
+		num = (digit1-48) + ((digit2-48) * 10);
+
+	}
+
+	int i;
+
+	for (i=0; i < num; i++) {
+
+		printf("%s", fgets(buff, 550, fptr));
+
+	}
+	
+	printf("\n");
+
+	while (fgets(buff, 10, fptr)!=NULL) {
+
+		printf("%s", buff);
+
+	}
+
+	fclose(fptr);
 
 	return 0;
-
 }
+
+/*
+
+
+
+
+*/
