@@ -111,7 +111,7 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
         }
         else if (PID == 0) { // child process
 
-            DFSVisit(graph, node++, cmds, mode) // "call DFSVisit recursively" node++ to increment the next node set? NOT SURE
+            DFSVisit(graph, node++, cmds, mode); // "call DFSVisit recursively" node++ to increment the next node set? NOT SURE
 
         }
         else { // parent process
