@@ -78,13 +78,13 @@ void addEdge(struct DepGraph* graph, int src, int dest){
     struct AdjListNode* newNode = newAdjListNode(dest);
 
     //src to dest
-    newNode->next = graph->array[src];
-    graph->array[src] = newNode;
+    newNode->next = graph->array[src].head;
+    graph->array[src].head = newNode;
 
     //dest to src
     newNode = newAdjListNode(src);
-    newNode->next = graph->array[dest];
-    graph->array[dest] = newNode;
+    newNode->next = graph->array[dest].head;
+    graph->array[dest].head = newNode;
 
     //Should work, not tested
 	
