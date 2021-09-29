@@ -7,4 +7,4 @@ testing on the Windows Ubuntu thing
 Yeah this may actually work
 
 
-/mnt/c/Users/chase/OneDrive/Documents/GitHub/4061-Project1/sourceCode# 
+/mnt/c/Users/chase/OneDrive/Documents/GitHub/

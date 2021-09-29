@@ -44,11 +44,27 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
         // corresponding command from cmds in DFSVisit
     }
 
+    char* holder;
+    int src;
+    int dest;
+
     while((read = getline(&line, &len, input)) != -1) {
         // TODO: extract src and dest from current line
         // you may find strtok very helpful
+        // [DONE]
+
+        holder = strtok(read, " ");
+        
+        src = holder[0] - 48;
+
+        holder = strtok(NULL, " ");
+
+        dest = holder[0] - 48;
 
         // TODO: add current edge to graph (src <-> dest forms an edge)
+        // [DONE]
+
+        addEdge(graph, src, dest);
 
 	}
 
@@ -64,12 +80,48 @@ void addEdge(struct DepGraph* graph, int src, int dest){
 void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
     // start from node, iterate over its adjListNode
     struct AdjListNode* adjListNode = graph -> array[node].head;
+    
+    int PID;
+
     while(adjListNode != NULL){
+        
         // TODO: fork then call DFSVisit inside child process recursively
+
+        PID = fork();
+
+        if (PID < 0) {
+
+            printf("error in forking");
+
+        }
+        else if (PID == 0) { // child process
+
+            DFSVisit(graph, node++, cmds, mode) // "call DFSVisit recursively" node++ to increment the next node set? NOT SURE
+
+        }
+        else { // parent process
+
+            
+            
+
+            if (mode) {
+                // mode 1 parallel
+
+
+            }
+            else {
+                // mode 0 DFS
+
+
+            }
+
+        }
 
         // TODO: inside parent process, wait child process or not depend on mode
 
         // TODO: go to next adjacent node
+
+        adjListNode = adjListNode->next;
 
     }
 
