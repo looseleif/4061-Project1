@@ -75,6 +75,20 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
 void addEdge(struct DepGraph* graph, int src, int dest){
     // TODO: add an edge to graph
 
+    struct AdjListNode* newNode = newAdjListNode(dest);
+
+    //src to dest
+    newNode->next = graph->array[src];
+    graph->array[src] = newNode;
+
+    //dest to src
+    newNode = newAdjListNode(src);
+    newNode->next = graph->array[dest];
+    graph->array[dest] = newNode;
+
+    //Should work, not tested
+	
+
 }
 
 void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
