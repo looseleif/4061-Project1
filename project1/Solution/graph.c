@@ -86,6 +86,7 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
     while(adjListNode != NULL){
         
         // TODO: fork then call DFSVisit inside child process recursively
+        // TODO: inside parent process, wait child process or not depend on mode
 
         PID = fork();
 
@@ -117,7 +118,7 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
 
         }
 
-        // TODO: inside parent process, wait child process or not depend on mode
+        
 
         // TODO: go to next adjacent node
 
