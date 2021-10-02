@@ -33,7 +33,12 @@ int main(int argc, char **argv) {
 
 	fclose(input);
 
-	processGraph(depGraph, cmds, mode);
+	printf("success\n");
+
+	printAdjList(depGraph, cmds, mode);
+
+	/*processGraph(depGraph, cmds, mode);*/
+	
 
 	return 0;
 }

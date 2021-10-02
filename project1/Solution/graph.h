@@ -44,4 +44,6 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode);
 // execute the generated graph
 void processGraph(struct DepGraph* graph, char cmds[][550], int mode);
 
+void printAdjList(struct DepGraph* graph, char cmds[][550], int mode);
+
 #endif

@@ -17,17 +17,22 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
     read = getline(&line, &len, input);
     sscanf(line, "%d", &V);
 
-    // skip the blank line
+    // skip the first blank line
     read = getline(&line, &len, input);
 
     int cmdIter = 0;
-	while((read = getline(&line, &len, input)) != -1) {
-		if(strcmp(line, "\n") == 0){
-			break;
-		}
-		// read commands
+    int j;
+	
+    for(j=0;j<V;j++){
+        
+        read = getline(&line, &len, input);
+
 		strcpy(cmds[cmdIter++], line);
+
 	}
+
+    // skip second blank line
+    read = getline(&line, &len, input);
 
     // Graph creation
     struct DepGraph* graph =  (struct DepGraph*) malloc(sizeof(struct DepGraph)); 
@@ -53,7 +58,7 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
         // you may find strtok very helpful
         // [DONE]
 
-        holder = strtok(read, " ");
+        holder = strtok(line, " ");
         
         src = holder[0] - 48;
 
@@ -63,6 +68,8 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
 
         // TODO: add current edge to graph (src <-> dest forms an edge)
         // [DONE]
+
+//        printf("src:%d and dest:%d\n", src, dest);
 
         addEdge(graph, src, dest);
 
@@ -77,6 +84,49 @@ void addEdge(struct DepGraph* graph, int src, int dest){
 
     struct AdjListNode* newNode = newAdjListNode(dest);
 
+    struct AdjListNode* current = graph->array[src].head;
+
+
+    if (graph->array[src].head == NULL) {
+
+        graph->array[src].head = newNode;
+
+        printf("src:%d and dest:%d\n", src, newNode->dest);
+
+        current = graph->array[src].head;
+
+    }
+    else {
+
+        while (current->next != NULL) {
+
+            current = current->next;
+
+        }
+
+        current->next = newNode;
+
+        printf("ADDED: src:%d and dest:%d\n", src, current->next->dest);
+
+        if (src == 0) {
+
+            printf("child1:%d and child2:%d\n", graph->array[src].head->dest, graph->array[src].head->next->dest);
+
+        }
+
+    }
+
+
+
+    //printf("Created edge from %d to %d\n", src, dest);
+    
+    // adding an edge would be simply mean adding a pointer to the adjacency list, noting the number that it represents [dest]
+
+    
+    
+    
+    /*    struct AdjListNode* newNode = newAdjListNode(dest);
+
     //src to dest
     newNode->next = graph->array[src].head;
     graph->array[src].head = newNode;
@@ -86,7 +136,9 @@ void addEdge(struct DepGraph* graph, int src, int dest){
     newNode->next = graph->array[dest].head;
     graph->array[dest].head = newNode;
 
-    //Should work, not tested
+    //Should work, not tested*/
+    
+
 	
 
 }
@@ -136,8 +188,6 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
 
         // TODO: go to next adjacent node
 
-        adjListNode = adjListNode->next;
-
     }
 
     // TODO: wait child processes or not depend on mode
@@ -160,4 +210,36 @@ void processGraph(struct DepGraph* graph, char cmds[][550], int mode){
     else {
         wait(NULL);
     }
+}
+
+void printAdjList(struct DepGraph* graph, char cmds[][550], int mode) {
+
+    struct AdjListNode *head = NULL;
+    int i;
+    for (i = 0; i < graph->V; i++) {
+
+        head = graph->array[i].head;
+
+        if (head == NULL) {
+
+            //printf("Empty Adj List for node %d!\n", i);
+
+        }
+        else {
+
+            printf("AdjList of Node %d:%d", i,head->dest);
+
+            while (head->next != NULL) {
+
+                
+                head = head->next;
+                printf("->%d", head->dest);
+
+            }
+
+            printf("\n");
+
+        }
+    }
+
 }

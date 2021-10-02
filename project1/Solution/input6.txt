@@ -1,0 +1,23 @@
+10
+
+echo sleep sort done
+echo 6
+echo 9
+echo 5
+echo 2
+echo 3
+echo 4
+echo 8
+echo 1
+echo 7
+
+0 1
+0 2
+0 3
+0 4
+0 5
+0 6
+0 7
+0 8
+0 9
+1 2
