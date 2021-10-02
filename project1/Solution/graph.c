@@ -119,59 +119,90 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
     while(adjListNode != NULL){
         
         // TODO: fork then call DFSVisit inside child process recursively
-        // TODO: inside parent process, wait child process or not depend on mode
-
         PID = fork();
 
-        if (PID < 0) {
+        if (PID < 0) { // error
 
             printf("error in forking");
 
         }
         else if (PID == 0) { // child process
 
+            //printf("hello\n");
+
             DFSVisit(graph, adjListNode->dest, cmds, mode); // "call DFSVisit recursively" node++ to increment the next node set? NOT SURE
 
         }
         else { // parent process
 
+            // serial
             if (!mode) {
                 
+                // TODO: inside parent process, wait child process or not depend on mode
                 wait(NULL);
 
             }
 
         }
 
-        adjListNode = adjListNode->next;
-
         // TODO: go to next adjacent node
+        adjListNode = adjListNode->next;
 
     }
 
-    if(mode){ while (wait(NULL) > 0); /*wait for all children before continuation*/ }
-
-
     // TODO: wait child processes or not depend on mode
+    if(mode){ while (wait(NULL) > 0); /*wait for all children before continuation*/ }
 
 
     // TODO: print current node command to results.txt
 
+    FILE* output;
+
+    output = fopen("output1.txt", "a");
+
+    fprintf(output, "%d %d %s", getpid(), getppid(), cmds[node]);
+
+    fclose(output);
 
     // TODO: execute current node command
 
-    FILE* output;
+    char commandSplit[32][550];
 
-    output = fopen("output1.txt", "w");
+    int counter = 1;
 
-    int john;
+    /*    printf("%s", strtok(cmds[node], " "));
+    printf("%s", strtok(NULL, " "));
+    printf("%s", strtok(NULL, " "));
+    printf("%s", strtok(NULL, " "));
+    printf("SPLIT!!!");*/
 
-    for(john=0; john<100; john++){fprintf(output, "LOL\n");}
 
-    fclose(output);
-    
+    // "should" get echo for input6.txt
+    //commandSplit[0] = strtok(cmds[node], " ");
+    strcpy(commandSplit[0], strtok(cmds[node], " "));
+    //printf("%s\n", commandSplit[0]);
+
+    // should get the rest
+    while (commandSplit[counter] != NULL)
+    {
+        
+        //commandSplit[counter] = strtok(NULL, " ");
+        
+        strcpy(commandSplit[counter], strtok(NULL, " "));
+        //printf("%s\n", commandSplit[counter]);
+        counter = counter + 1;
+        
+    }
+
+    execv("./", commandSplit[][550]);
+
+
+    // example command "echo sleep sort done"
 
     //exec()
+    //execl("./outputInput", "./outputInput", "222", NULL); // new program
+
+
 
     exit(0);
 }

@@ -1,0 +1,4 @@
+831 830 /bin/pwd
+833 832 echo Hello
+832 830 echo Hello There
+830 829 /bin/ls F1 -l

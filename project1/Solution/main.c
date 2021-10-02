@@ -33,22 +33,18 @@ int main(int argc, char **argv) {
 
 	fclose(input);
 
-	printf("success\n");
-
-	FILE* output;
-
-	output = fopen("output1.txt", "w");
-
-	int john;
-
-	for (john = 0; john < 100; john++) { fprintf(output, "LOL\n"); }
-
-	fclose(output);
-
-	//printAdjList(depGraph, cmds, mode);
-
-	/*processGraph(depGraph, cmds, mode);*/
+	
+	
 	
 
+	// used to clear the contents of output.txt for recurrent testing
+	FILE* output;
+	output = fopen("output1.txt", "w");
+	fclose(output);
+	
+	//printAdjList(depGraph, cmds, mode);
+
+	processGraph(depGraph, cmds, mode);
+	
 	return 0;
 }
