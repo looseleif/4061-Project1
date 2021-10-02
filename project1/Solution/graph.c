@@ -23,6 +23,7 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
     int cmdIter = 0;
     int j;
 	
+    // Aquire Command Lines
     for(j=0;j<V;j++){
         
         read = getline(&line, &len, input);
@@ -40,36 +41,35 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
     graph -> array =  (struct AdjList*) malloc(V * sizeof(struct AdjList)); 
 
     int i; 
+    
+    // Initialize Each Node Structure
     for (i = 0; i < V; ++i){
+
         graph->array[i].head = NULL;
         graph->array[i].visit = 0;
+
         // TODO: you can add corresponding cmd to each node, it depends on you
         // if you want to save them to graph, feel free to change graph.h and anything needed
         // otherwise you don't need to do anything here but you will extract
         // corresponding command from cmds in DFSVisit
+    
     }
 
     char* holder;
     int src;
     int dest;
 
+
+    // Aquire SRC and DEST values
     while((read = getline(&line, &len, input)) != -1) {
-        // TODO: extract src and dest from current line
-        // you may find strtok very helpful
-        // [DONE]
 
         holder = strtok(line, " ");
         
-        src = holder[0] - 48;
+        src = atoi(holder);
 
         holder = strtok(NULL, " ");
 
-        dest = holder[0] - 48;
-
-        // TODO: add current edge to graph (src <-> dest forms an edge)
-        // [DONE]
-
-//        printf("src:%d and dest:%d\n", src, dest);
+        dest = atoi(holder);
 
         addEdge(graph, src, dest);
 
@@ -80,6 +80,7 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
 
 
 void addEdge(struct DepGraph* graph, int src, int dest){
+    
     // TODO: add an edge to graph
 
     struct AdjListNode* newNode = newAdjListNode(dest);
@@ -91,12 +92,9 @@ void addEdge(struct DepGraph* graph, int src, int dest){
 
         graph->array[src].head = newNode;
 
-        printf("src:%d and dest:%d\n", src, newNode->dest);
-
         current = graph->array[src].head;
 
-    }
-    else {
+    } else {
 
         while (current->next != NULL) {
 
@@ -106,45 +104,14 @@ void addEdge(struct DepGraph* graph, int src, int dest){
 
         current->next = newNode;
 
-        printf("ADDED: src:%d and dest:%d\n", src, current->next->dest);
-
-        if (src == 0) {
-
-            printf("child1:%d and child2:%d\n", graph->array[src].head->dest, graph->array[src].head->next->dest);
-
-        }
-
     }
-
-
-
-    //printf("Created edge from %d to %d\n", src, dest);
-    
-    // adding an edge would be simply mean adding a pointer to the adjacency list, noting the number that it represents [dest]
-
-    
-    
-    
-    /*    struct AdjListNode* newNode = newAdjListNode(dest);
-
-    //src to dest
-    newNode->next = graph->array[src].head;
-    graph->array[src].head = newNode;
-
-    //dest to src
-    newNode = newAdjListNode(src);
-    newNode->next = graph->array[dest].head;
-    graph->array[dest].head = newNode;
-
-    //Should work, not tested*/
-    
-
 	
-
 }
 
 void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
+    
     // start from node, iterate over its adjListNode
+
     struct AdjListNode* adjListNode = graph -> array[node].head;
     
     int PID;
@@ -163,32 +130,27 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
         }
         else if (PID == 0) { // child process
 
-            DFSVisit(graph, node++, cmds, mode); // "call DFSVisit recursively" node++ to increment the next node set? NOT SURE
+            DFSVisit(graph, adjListNode->dest, cmds, mode); // "call DFSVisit recursively" node++ to increment the next node set? NOT SURE
 
         }
         else { // parent process
 
-            
-            
-
-            if (mode) {
-                // mode 1 parallel
-
-
-            }
-            else {
-                // mode 0 DFS
-
+            if (!mode) {
+                
+                wait(NULL);
 
             }
 
         }
 
-        
+        adjListNode = adjListNode->next;
 
         // TODO: go to next adjacent node
 
     }
+
+    if(mode){ while (wait(NULL) > 0); /*wait for all children before continuation*/ }
+
 
     // TODO: wait child processes or not depend on mode
 
@@ -197,6 +159,19 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
 
 
     // TODO: execute current node command
+
+    FILE* output;
+
+    output = fopen("output1.txt", "w");
+
+    int john;
+
+    for(john=0; john<100; john++){fprintf(output, "LOL\n");}
+
+    fclose(output);
+    
+
+    //exec()
 
     exit(0);
 }
@@ -212,7 +187,7 @@ void processGraph(struct DepGraph* graph, char cmds[][550], int mode){
     }
 }
 
-void printAdjList(struct DepGraph* graph, char cmds[][550], int mode) {
+void printAdjList(struct DepGraph* graph, char cmds[][550], int mode) { // THIS IS A TEST FUNCTION I MADE TO CONFIRM THE ADJLIST IS FUNCTIONAL
 
     struct AdjListNode *head = NULL;
     int i;
@@ -222,12 +197,12 @@ void printAdjList(struct DepGraph* graph, char cmds[][550], int mode) {
 
         if (head == NULL) {
 
-            //printf("Empty Adj List for node %d!\n", i);
+            //printf("Node %d's AdjList is Empty\n", i);
 
         }
         else {
 
-            printf("AdjList of Node %d:%d", i,head->dest);
+            printf("AdjList of Node %d : %d", i,head->dest);
 
             while (head->next != NULL) {
 

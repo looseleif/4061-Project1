@@ -35,7 +35,17 @@ int main(int argc, char **argv) {
 
 	printf("success\n");
 
-	printAdjList(depGraph, cmds, mode);
+	FILE* output;
+
+	output = fopen("output1.txt", "w");
+
+	int john;
+
+	for (john = 0; john < 100; john++) { fprintf(output, "LOL\n"); }
+
+	fclose(output);
+
+	//printAdjList(depGraph, cmds, mode);
 
 	/*processGraph(depGraph, cmds, mode);*/
 	
