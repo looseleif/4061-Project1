@@ -166,43 +166,43 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
 
     // TODO: execute current node command
 
-    char commandSplit[32][550];
+    char * commandSplit[32];
 
-    int counter = 1;
-
-    /*    printf("%s", strtok(cmds[node], " "));
-    printf("%s", strtok(NULL, " "));
-    printf("%s", strtok(NULL, " "));
-    printf("%s", strtok(NULL, " "));
-    printf("SPLIT!!!");*/
-
+    int counter = 0;
 
     // "should" get echo for input6.txt
-    //commandSplit[0] = strtok(cmds[node], " ");
-    strcpy(commandSplit[0], strtok(cmds[node], " "));
-    //printf("%s\n", commandSplit[0]);
+    commandSplit[0] = strtok(cmds[node], " \n");
+    //printf("inital: %s\n", commandSplit[0]);
 
     // should get the rest
     while (commandSplit[counter] != NULL)
     {
         
-        //commandSplit[counter] = strtok(NULL, " ");
-        
-        strcpy(commandSplit[counter], strtok(NULL, " "));
-        //printf("%s\n", commandSplit[counter]);
+        //printf("arguments: %s\n", commandSplit[counter]);
         counter = counter + 1;
+        commandSplit[counter] = strtok(NULL, " \n");
+        
+        
+        
         
     }
 
-    execv("./", commandSplit[][550]);
+    commandSplit[counter] = NULL;
+
+    //printf("-----\n");
+
+            int k;
+
+        /*for (k = 0; k < counter; k++) {
+
+            printf("%s\n", commandSplit[k]);
+
+        }
+
+        printf("---\n");*/
 
 
-    // example command "echo sleep sort done"
-
-    //exec()
-    //execl("./outputInput", "./outputInput", "222", NULL); // new program
-
-
+    execv(commandSplit[0], commandSplit);
 
     exit(0);
 }
