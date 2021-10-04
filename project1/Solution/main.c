@@ -49,10 +49,6 @@ int main(int argc, char **argv) {
 
 	fclose(input);
 
-	
-	
-	
-
 	// Used to clear the contents of output.txt for recurrent testing
 	FILE* output;
 	output = fopen("output.txt", "w");

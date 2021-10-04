@@ -17,7 +17,7 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
     read = getline(&line, &len, input);
     sscanf(line, "%d", &V);
 
-    if (V < 1 || V>32) {
+    if (V < 1 || V > 32) {
 
         printf("ERROR: An invalid number of nodes were entered...\n");
 
@@ -63,11 +63,6 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
 
         graph->array[i].head = NULL;
         graph->array[i].visit = 0;
-
-        // TODO: you can add corresponding cmd to each node, it depends on you
-        // if you want to save them to graph, feel free to change graph.h and anything needed
-        // otherwise you don't need to do anything here but you will extract
-        // corresponding command from cmds in DFSVisit
     
     }
 
@@ -111,13 +106,6 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
             addEdge(graph, src, dest);
 
         }
-        else {
-
-
-
-        }
-
-        
 
 	}
 
@@ -211,9 +199,10 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
 
     if(!output) {
 		
-        printf("File %s not able to be written...\n", "output.txt");
+        printf("ERROR: File %s not able to be written...\n", "output.txt");
 		printf("Exiting...\n");
 		exit(1);
+
 	}
 
     pid_t personalPID = getpid();
