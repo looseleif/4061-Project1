@@ -160,6 +160,12 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
 
     output = fopen("output1.txt", "a");
 
+    if(!output) {
+		//printf("File %s not able to be written...\n", argv[1]); //TODO: replace argv[1] with output file path
+		printf("Exiting...\n");
+		exit(1);
+	}
+
     fprintf(output, "%d %d %s", getpid(), getppid(), cmds[node]);
 
     fclose(output);

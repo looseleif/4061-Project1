@@ -40,6 +40,13 @@ int main(int argc, char **argv) {
 	// used to clear the contents of output.txt for recurrent testing
 	FILE* output;
 	output = fopen("output1.txt", "w");
+
+	if(!output) {
+		//printf("File %s not found...\n", argv[1]); //TODO: change argv[1] to output file path
+		printf("Exiting...\n");
+		exit(1);
+	}
+
 	fclose(output);
 	
 	//printAdjList(depGraph, cmds, mode);
