@@ -171,7 +171,7 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
     int counter = 0;
 
     // "should" get echo for input6.txt
-    commandSplit[0] = strtok(cmds[node], " \n");
+    commandSplit[0] = strtok(cmds[node], " \n\r/bin/");
     //printf("inital: %s\n", commandSplit[0]);
 
     // should get the rest
@@ -180,7 +180,7 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
         
         //printf("arguments: %s\n", commandSplit[counter]);
         counter = counter + 1;
-        commandSplit[counter] = strtok(NULL, " \n");
+        commandSplit[counter] = strtok(NULL, " \n\r/bin/");
         
         
         
@@ -202,7 +202,7 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
         printf("---\n");*/
 
 
-    execv(commandSplit[0], commandSplit);
+    execvp(commandSplit[0],commandSplit);
 
     exit(0);
 }
