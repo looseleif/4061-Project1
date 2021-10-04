@@ -17,6 +17,14 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
     read = getline(&line, &len, input);
     sscanf(line, "%d", &V);
 
+    if (V < 1 || V>32) {
+
+        printf("ERROR: An invalid number of nodes were entered...\n");
+
+        exit(1);
+
+    }
+
     // skip the first blank line
     read = getline(&line, &len, input);
 
@@ -27,6 +35,14 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
     for(j=0;j<V;j++){
         
         read = getline(&line, &len, input);
+
+        if (len > 552) { // Maximum allowed characters in input command + NULL character '\0'
+
+            printf("ERROR: Exceeded maximum number characters for input command string...\n");
+
+            exit(1);
+
+        }
 
 		strcpy(cmds[cmdIter++], line);
 
@@ -71,7 +87,37 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
 
         dest = atoi(holder);
 
-        addEdge(graph, src, dest);
+        if (dest < src) {
+
+            printf("ERROR: Destination Node cannot be less than Source Node...\n");
+            exit(1);
+        }
+        
+        if (src < 0 || dest < 0) {
+
+            printf("ERROR: Both Source and Destination Nodes must be greater than or equal to 0...\n");
+            exit(1);
+        }
+
+        if (dest == src) {
+
+            addEdge(graph, src, -1);
+
+        }
+
+
+        if (dest > src && src >= 0) {
+
+            addEdge(graph, src, dest);
+
+        }
+        else {
+
+
+
+        }
+
+        
 
 	}
 
@@ -80,10 +126,21 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550]){
 
 
 void addEdge(struct DepGraph* graph, int src, int dest){
-    
-    // TODO: add an edge to graph
 
-    struct AdjListNode* newNode = newAdjListNode(dest);
+    struct AdjListNode* newNode;
+
+    if (dest == -1) {
+
+        newNode = NULL;
+
+    }
+    else {
+
+        newNode = newAdjListNode(dest);
+
+    }
+
+    
 
     struct AdjListNode* current = graph->array[src].head;
 
@@ -117,18 +174,16 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
     int PID;
 
     while(adjListNode != NULL){
-        
-        // TODO: fork then call DFSVisit inside child process recursively
+
         PID = fork();
 
         if (PID < 0) { // error
 
-            printf("error in forking");
+            printf("ERROR: Forking error...");
+            exit(1);
 
         }
         else if (PID == 0) { // child process
-
-            //printf("hello\n");
 
             DFSVisit(graph, adjListNode->dest, cmds, mode); // "call DFSVisit recursively" node++ to increment the next node set? NOT SURE
 
@@ -137,54 +192,60 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
 
             // serial
             if (!mode) {
-                
-                // TODO: inside parent process, wait child process or not depend on mode
+
                 wait(NULL);
 
             }
 
         }
 
-        // TODO: go to next adjacent node
         adjListNode = adjListNode->next;
 
     }
 
-    // TODO: wait child processes or not depend on mode
     if(mode){ while (wait(NULL) > 0); /*wait for all children before continuation*/ }
-
-
-    // TODO: print current node command to results.txt
 
     FILE* output;
 
-    output = fopen("output1.txt", "a");
+    output = fopen("output.txt", "a");
 
     if(!output) {
-		//printf("File %s not able to be written...\n", argv[1]); //TODO: replace argv[1] with output file path
+		
+        printf("File %s not able to be written...\n", "output.txt");
 		printf("Exiting...\n");
 		exit(1);
 	}
 
-    fprintf(output, "%d %d %s", getpid(), getppid(), cmds[node]);
+    pid_t personalPID = getpid();
+    pid_t parentPID = getppid();
+
+    if (personalPID < -1) {
+
+        printf("ERROR: Unable to aquire PID of child...\n");
+        exit(1);
+
+    }
+
+    if (parentPID < -1) {
+
+        printf("ERROR: Unable to aquire parent PID of child...\n");
+        exit(1);
+
+    }
+
+    fprintf(output, "%d %d %s", personalPID, parentPID, cmds[node]);
 
     fclose(output);
-
-    // TODO: execute current node command
 
     char * commandSplit[50];
 
     int counter = 0;
 
-    // "should" get echo for input6.txt
     commandSplit[0] = strtok(cmds[node], " \n\r");
-    //printf("inital: %s\n", commandSplit[0]);
 
-    // should get the rest
     while (commandSplit[counter] != NULL)
     {
-        
-        //printf("arguments: %s\n", commandSplit[counter]);
+
         counter = counter + 1;
         commandSplit[counter] = strtok(NULL, " \n\r");
         
@@ -192,33 +253,30 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode) {
 
     commandSplit[counter] = NULL;
 
-    //printf("-----\n");
-
-            int k;
-
-        /*for (k = 0; k < counter; k++) {
-
-            printf("%s\n", commandSplit[k]);
-
-        }
-
-        printf("---\n");*/
-
-
     execvp(commandSplit[0],commandSplit);
 
     exit(0);
 }
 
 void processGraph(struct DepGraph* graph, char cmds[][550], int mode){
+    
     int i;
     int child = fork();
+    
+    if (child < 0) {
+        
+        printf("ERROR: Forking error...");
+        exit(1);
+
+    }
+    
     if (child == 0) {
 	   DFSVisit(graph, 0, cmds, mode);
     }
     else {
         wait(NULL);
     }
+
 }
 
 void printAdjList(struct DepGraph* graph, char cmds[][550], int mode) { // THIS IS A TEST FUNCTION I MADE TO CONFIRM THE ADJLIST IS FUNCTIONAL
@@ -230,8 +288,6 @@ void printAdjList(struct DepGraph* graph, char cmds[][550], int mode) { // THIS 
         head = graph->array[i].head;
 
         if (head == NULL) {
-
-            //printf("Node %d's AdjList is Empty\n", i);
 
         }
         else {

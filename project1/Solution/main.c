@@ -17,11 +17,27 @@ int main(int argc, char **argv) {
 		mode = 0;
 		input = fopen(argv[1], "r");
 	} else if (argc ==3) {
-		mode = 1;
-		input = fopen(argv[2], "r");
+		
+		if (strcmp(argv[1], "-p")==0) { // ADDED FLEXIBILITY
+
+			mode = 1;
+			input = fopen(argv[2], "r");
+
+		}else if (strcmp(argv[2], "-p")==0) {
+
+			mode = 1;
+			input = fopen(argv[1], "r");
+
+		}
+		else {
+
+			printf("ERROR: -p not found, use -p for parallel mode...\n");
+			exit(1);
+
+		}
+
 	}
 
-	
 	if(!input) {
 		printf("File %s not found...\n", argv[1]);
 		printf("Exiting...\n");
@@ -37,19 +53,20 @@ int main(int argc, char **argv) {
 	
 	
 
-	// used to clear the contents of output.txt for recurrent testing
+	// Used to clear the contents of output.txt for recurrent testing
 	FILE* output;
-	output = fopen("output1.txt", "w");
+	output = fopen("output.txt", "w");
 
 	if(!output) {
-		//printf("File %s not found...\n", argv[1]); //TODO: change argv[1] to output file path
+		printf("ERROR: Cannot write to %s...\n", "output.txt"); // not tested but assumed behavior
 		printf("Exiting...\n");
 		exit(1);
 	}
 
 	fclose(output);
 	
-	//printAdjList(depGraph, cmds, mode);
+	// For testing purposes
+	// printAdjList(depGraph, cmds, mode); 
 
 	processGraph(depGraph, cmds, mode);
 	
