@@ -18,10 +18,16 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550])
     // Gets the number of nodes
     read = getline(&line, &len, input);
     sscanf(line, "%d", &V);
+<<<<<<< HEAD
     
     //Error checking for number of nodes/commands
     if (V < 1 || V>32) 
     {
+=======
+
+    if (V < 1 || V > 32) {
+
+>>>>>>> 7e147eec8b5d106c7c44a43a551d07d64147d506
         printf("ERROR: An invalid number of nodes were entered...\n");
         exit(1);
     }
@@ -61,10 +67,14 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550])
     {
         graph->array[i].head = NULL;
         graph->array[i].visit = 0;
+<<<<<<< HEAD
         // TODO: you can add corresponding cmd to each node, it depends on you
         // if you want to save them to graph, feel free to change graph.h and anything needed
         // otherwise you don't need to do anything here but you will extract
         // corresponding command from cmds in DFSVisit
+=======
+    
+>>>>>>> 7e147eec8b5d106c7c44a43a551d07d64147d506
     }
 
     char* holder;
@@ -108,10 +118,14 @@ struct DepGraph* createDepGraph(FILE *input, char cmds[][550])
         {
             addEdge(graph, src, dest);
         }
+<<<<<<< HEAD
         else
         {
             //TODO: what is this else for?
         }
+=======
+
+>>>>>>> 7e147eec8b5d106c7c44a43a551d07d64147d506
 	}
 
     return graph; 
@@ -188,13 +202,21 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode)
     FILE* output;
 
     output = fopen("output.txt", "a");
+<<<<<<< HEAD
     
     //Error checking for file error
     if(!output)
     {
         printf("File %s not able to be written...\n", "output.txt");
+=======
+
+    if(!output) {
+		
+        printf("ERROR: File %s not able to be written...\n", "output.txt");
+>>>>>>> 7e147eec8b5d106c7c44a43a551d07d64147d506
 		printf("Exiting...\n");
 		exit(1);
+
 	}
 
     pid_t personalPID = getpid();
