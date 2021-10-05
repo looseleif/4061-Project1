@@ -143,8 +143,6 @@ void addEdge(struct DepGraph* graph, int src, int dest)
         }
         current->next = newNode;
     }
-
-    free(newNode);
 	
 }
 
@@ -185,16 +183,16 @@ void DFSVisit(struct DepGraph* graph, int node, char cmds[][550], int mode)
 
     FILE* output;
 
-    output = fopen("output.txt", "a");
+    output = fopen("results.txt", "a");
     
     //Error checking for file error
     if (!output)
     {
-        printf("File %s not able to be written...\n", "output.txt");
+        printf("File %s not able to be written...\n", "results.txt");
     }
     if(!output) {
 		
-        printf("ERROR: File %s not able to be written...\n", "output.txt");
+        printf("ERROR: File %s not able to be written...\n", "results.txt");
 		printf("Exiting...\n");
 		exit(1);
 
@@ -261,10 +259,6 @@ void processGraph(struct DepGraph* graph, char cmds[][550], int mode)
     { 
         wait(NULL);
     }
-
-    free(graph->array);
-    free(graph);
-
 }
 
 // THIS IS A TEST FUNCTION I MADE TO CONFIRM THE ADJLIST IS FUNCTIONAL

@@ -55,14 +55,14 @@ int main(int argc, char **argv)
 
 	fclose(input);
 
-	// Used to clear the contents of results.txt for recurrent testing
+	// Used to clear the contents of output.txt for recurrent testing
 	FILE* output;
 	output = fopen("results.txt", "w");
 	
 	//Error checking file write
 	if(!output)
 	{
-		printf("ERROR: Cannot write to %s...\n", "results.txt"); // not tested but assumed behavior
+		printf("ERROR: Cannot write to %s...\n", "output.txt"); // not tested but assumed behavior
 		printf("Exiting...\n");
 		exit(1);
 	}
